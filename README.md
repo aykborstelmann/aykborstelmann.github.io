@@ -26,6 +26,7 @@ While installing **make sure** to set up Wi-Fi, SSH and a password.
    2. Set a password (and different username if you want)
    3. Configure your Wi-Fi and Wi-Fi country 
 6. Click on write
+
 </details>
 
 ## First login to the raspberry pi 
@@ -79,6 +80,7 @@ Just try rebooting the raspberry pi with
 ```bash 
 sudo reboot
 ```
+
 </details>
 
 <details>
@@ -90,6 +92,7 @@ See 'docker run --help'.
 ```
 
 Don't forget to also continue with the Linux post-install steps which are mentioned on the end of "Install docker engine", see here https://docs.docker.com/engine/install/linux-postinstall/
+
 </details>
 
 Validate everything works via
@@ -158,6 +161,7 @@ Try to find out what all those parameters do
 | --name    | Gives the container a name with which it can be referenced later                                                                                                                                                                                                                                                                                                                                              |
 | -e        | Specifies environment variables inside the container                                                                                                                                                                                                                                                                                                                                                          |
 | -v        | Mounts a volume from your local filesystem to the container's filesystem<br/>Here this means that the local folder `data/homeassistant/` will be accessible inside the container via `/config`. <br/>This has 2 advantages: <br/>1. If the container is gone the files in `/config` will still be accessible. <br/>2. We can edit the files inside the container by just editing it in `datat/homeassistant`. |
+
 </details>
 
 When it's started you should first of all see that there are some file being created in `data/homeassistant`. You can check this by running: 
@@ -202,6 +206,7 @@ Then try to modify the `docker run` command so that it also *publishes* the port
 <summary>Hint</summary>
 
 This feature can be found via the parameter `-p`. Look it up and configure it accordingly. 
+
 </details>
 
 <details>
@@ -216,6 +221,7 @@ docker run -d \
   -p 8123:8123 \
   homeassistant/home-assistant:stable  
 ```
+
 </details>
 
 Now you can open http://raspberrypi.local:8123 and Home Assistant should be visible.
@@ -289,6 +295,7 @@ services:
     ports:
       - 8123:8123
 ```
+
 </details>
 
 
