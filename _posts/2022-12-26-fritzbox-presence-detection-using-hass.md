@@ -64,7 +64,7 @@ If there are any updates, you will be asked to accept the updates.
 ## Install Docker 
 First watch this short video about what Docker is.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Gjnup-PuquQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![](https://www.youtube.com/watch?v=Gjnup-PuquQ)
 
 Follow this guide [https://docs.docker.com/engine/install/debian/](https://docs.docker.com/engine/install/debian/){:target="_blank"}{:rel="noopener noreferrer"} to install docker on your Raspberry Pi.
 
