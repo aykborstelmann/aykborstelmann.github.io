@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "FritzBox Presence Detection Using Home Assistant"
+date:   2022-12-26 14:36:52 +0100
+categories: hass fritzbox raspberry-pi docker
+---
+
 # Set up your Raspberry Pi
 
 ## Install Raspberry Pi OS
@@ -6,7 +13,7 @@ First we need to install the Raspberry Pi OS.
 This is an operating system designed for the raspberry pi. 
 It is based on the Linux Distribution *Debian*.
 This is installable in multiple variants. 
-We will choose Raspberry Pi OS Lite because it needs less storage the full version. 
+We will choose Raspberry Pi OS Lite because it needs less storage than the full version. 
 The tradeoff here is that Raspberry Pi OS Light does not come with desktop support, in other words,
 it is only possible to control the device via your keyboard and not with your mouse. 
 
@@ -14,18 +21,20 @@ it is only possible to control the device via your keyboard and not with your mo
 Install `Raspberry Pi OS Lite` on your SD-Card and start you Raspberry Pi.
 While installing **make sure** to set up Wi-Fi, SSH and a password.
 
-<details>
-    <summary>Solution</summary>
+<details markdown=1>
+<summary>Solution</summary>
 
-1. Go to https://www.raspberrypi.com/software/ and install the Raspberry Pi Imager
+1. Go to [https://www.raspberrypi.com/software/](https://www.raspberrypi.com/software/){:target="_blank"}{:rel="noopener noreferrer"} and install the Raspberry Pi Imager
 2. Open the Raspberry Pi Imager
 3. For OS choose Raspberry Pi OS (other) > Raspberry Pi OS Lite (32-bit)
-4. Insert and select your SD-Card
+4. Insert the SD-Card into your PC and select your SD-Card
 5. Go to advanced options
    1. Activate SSH 
    2. Set a password (and different username if you want)
    3. Configure your Wi-Fi and Wi-Fi country 
 6. Click on write
+7. Remove your SD-Card from you PC and insert it into your Raspberry Pi
+8. Turn on your Raspberry Pi by giving it power using the cable
 
 </details>
 
@@ -38,7 +47,8 @@ ssh pi@raspberrypi.local
 (Replace pi with your username if you changed it while installing)
 
 ### Install all updates
-##### Update your repositories
+
+#### Update your repositories
 ```bash
 sudo apt update
 ```
@@ -50,11 +60,16 @@ sudo apt upgrade
 
 If there are any updates, you will be asked to accept the updates. 
 
-## Install Docker 
-Follow this guide https://docs.docker.com/engine/install/debian/ to install docker on your Raspberry Pi.
 
-<details>
-    <summary>Pitfall "Job for docker.service failed because the control process exited with error code."</summary>
+## Install Docker 
+First watch this short video about what Docker is.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Gjnup-PuquQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Follow this guide [https://docs.docker.com/engine/install/debian/](https://docs.docker.com/engine/install/debian/){:target="_blank"}{:rel="noopener noreferrer"} to install docker on your Raspberry Pi.
+
+<details markdown=1>
+<summary>Pitfall "Job for docker.service failed because the control process exited with error code."</summary>
 
 ```
 Job for docker.service failed because the control process exited with error code.
@@ -83,15 +98,15 @@ sudo reboot
 
 </details>
 
-<details>
-    <summary>Pitfall "Got permission denied"</summary>
+<details markdown=1>
+<summary>Pitfall "Got permission denied"</summary>
 
 ```
 docker: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/containers/create": dial unix /var/run/docker.sock: connect: permission denied.
 See 'docker run --help'.
 ```
 
-Don't forget to also continue with the Linux post-install steps which are mentioned on the end of "Install docker engine", see here https://docs.docker.com/engine/install/linux-postinstall/
+Don't forget to also continue with the Linux post-install steps which are mentioned on the end of "Install docker engine", see [https://docs.docker.com/engine/install/linux-postinstall/](https://docs.docker.com/engine/install/linux-postinstall/){:target="_blank"}{:rel="noopener noreferrer"}
 
 </details>
 
@@ -132,7 +147,7 @@ For more examples and ideas, visit:
 ```
 
 ## Install Home Assistant
-Home Assistant provides an installation manual for docker itself (https://www.home-assistant.io/installation/raspberrypi#install-home-assistant-container). We will follow this in a slightly changed form.
+Home Assistant provides an installation manual for docker itself ([https://www.home-assistant.io/installation/raspberrypi#install-home-assistant-container](https://www.home-assistant.io/installation/raspberrypi#install-home-assistant-container){:target="_blank"}{:rel="noopener noreferrer"}). We will follow this in a slightly changed form.
 
 ### Docker Run
 
@@ -151,7 +166,7 @@ This can take a while depending on your internet connection.
 **Task**  
 Try to find out what all those parameters do 
 
-<details>
+<details markdown=1>
 <summary>Solution</summary>
 
 | Parameter | Function                                                                                                                                                                                                                                                                                                                                                                                                      |
@@ -190,7 +205,7 @@ services-up: info: copying legacy longrun home-assistant (no readiness notificat
 s6-rc: info: service legacy-services successfully started
 ```
 
-Normally Home Assistant exposes port `8123` and should therefore be accessible via http://raspberrypi.local:8123 in your browser. 
+Normally Home Assistant exposes port `8123` and should therefore be accessible via [http://raspberrypi.local:8123](http://raspberrypi.local:8123){:target="_blank"}{:rel="noopener noreferrer"} in your browser. 
 Currently, this is not possible. 
 The problem is that although the container has opened it `8123` port this is not automatically mapped to the port of the host system (here: Raspberry Pi)  
 
@@ -202,14 +217,14 @@ docker stop homeassistant
 
 Then try to modify the `docker run` command so that it also *publishes* the port `8123` to the raspberry pi port `8123`.
 
-<details>
+<details markdown=1>
 <summary>Hint</summary>
 
 This feature can be found via the parameter `-p`. Look it up and configure it accordingly. 
 
 </details>
 
-<details>
+<details markdown=1>
 <summary>Solution</summary>
 
 ``` bash
@@ -224,7 +239,7 @@ docker run -d \
 
 </details>
 
-Now you can open http://raspberrypi.local:8123 and Home Assistant should be visible.
+Now you can open [http://raspberrypi.local:8123](http://raspberrypi.local:8123){:target="_blank"}{:rel="noopener noreferrer"} and Home Assistant should be visible.
 
 ### Docker Compose
 
@@ -280,7 +295,7 @@ We have the same problem as before, the port is not accessible on the raspberry 
 **Task**  
 Modify the `docker-compose.yml` so that it also *publishes* the port `8123` to the raspberry pi port `8123`.
 
-<details>
+<details markdown=1>
 <summary>Solution</summary>
 
 ```yaml
@@ -299,10 +314,10 @@ services:
 </details>
 
 
-Now you can open http://raspberrypi.local:8123 and Home Assistant should be visible.
+Now you can open [http://raspberrypi.local:8123](http://raspberrypi.local:8123){:target="_blank"}{:rel="noopener noreferrer"} and Home Assistant should be visible.
 
 ### Configure your Home Assistant
-Now just follow the set-up guide on http://raspberrypi.local:8123 to set up your home assistant. 
+Now just follow the set-up guide on [http://raspberrypi.local:8123](http://raspberrypi.local:8123){:target="_blank"}{:rel="noopener noreferrer"} to set up your home assistant. 
 
 If you're done with it also try to stop and start the container again. You can see that Home Assistant is still configured as you left it. 
 This is because of the volume mapping `~/data/homeassistant:/config`.
@@ -312,7 +327,7 @@ Now finally we can start configuring the presence detection.
 
 ## FritzBox User
 First of all we need a separate FritzBox account for home assistant to access the FritzBox. 
-Create a new account in the admin UI on "http://fritz.box". 
+Create a new account in the admin UI on [http://fritz.box](http://fritz.box){:target="_blank"}{:rel="noopener noreferrer"}. 
 This user needs `FritzBox settings` and `Smart Home` as permissions. 
 
 ## Integrations
@@ -331,13 +346,24 @@ Continue with `AVM FRITZ!Box Tools`.
 
 ## Persons
 Now we will create `person`s in Home Assistant for each person who should trigger the presence detection.
-Fo to Settings > Persons and add them. For tracking device choose their phone or device which should trigger the presence detection. 
+Go to Settings > Persons and add them. For tracking device choose their phone or device which should trigger the presence detection. 
 
 ## Groups
 If you have multiple persons who using on room, it can make things easier to create a group for those. 
-Do this by editing `data/homeassistant/configuration.yaml`. 
 
-In this case it may be necessary to modify it via sudo.
+See [Home Assistant - Old Style Groups](https://www.home-assistant.io/integrations/group/#old-style-groups){:target="_blank"}{:rel="noopener noreferrer"} as a reference for how to add "old-style" groups.
+We need old style groups because the old groups don't yet support groups of persons.
+
+**Task**  
+Add a group for all members of a household which use one particular room.
+Remember that all Home Assistant configuration is accessible in `data/homeassistant`. 
+Inside the container Home Assistant is running as `root`. 
+So all files in `data/homeassistant` are only accessible with `sudo`.
+
+<details markdown=1>
+<summary>Solution</summary>
+
+Do this by editing `data/homeassistant/configuration.yaml`. 
 
 ```bash
 sudo nano data/homeassistant/configuration.yaml
@@ -355,15 +381,26 @@ group:
 
 To load those changes go to Developer Options in Home Assistant and click on "Check configuration" and if everything looks good, press restart.
 
-After that you can see your groups and their state in the History tab. 
+</details>
+
+Got to the History tab and select your group as entity to validate everything works. 
 
 ## Automation
 
-Go to Settings > Automations.
-
 For each device you want presence detection you need two automations: 
-1. Coming home automation
-2. Leaving home automation
+1. Coming home
+2. Leaving home
+
+Go to Settings > Automations > Create a automation
+
+**Task**  
+Create those two automations. 
+For trigger select a state trigger and find out what should be in the "to state" field.
+For extra information consolidate the documentation ([https://www.home-assistant.io/docs/automation/trigger/#state-trigger](https://www.home-assistant.io/docs/automation/trigger/#state-trigger){:target="_blank"}{:rel="noopener noreferrer"}) 
+and look at Developer Tools > States to analyze your person / groups states.  
+
+<details markdown=1>
+<summary>Solution</summary>
 
 **Trigger**
 * a state trigger
@@ -374,4 +411,49 @@ For each device you want presence detection you need two automations:
 * device action
 * device: the smart home device you want to control
 
-A current problem is now, that 
+</details>
+
+Normally heating devices from AVM are controlled via heating schedules.
+This means that each time the heating schedule has an entry to go back to heating your change via the automation is reverted. 
+
+There is a solution for this problem using FritzBox Templates. FritzBox supports a way to change a whole heating schedule to a different one using Templates. 
+This feature is also supported since the latest version of Home Assistant (I implemented it). 
+
+**Task**  
+Solve this problem using FritzBox Templates. 
+Find those in the FritzBox SmartHome menu and think of a plan how to use those in the automations instead.
+
+<details markdown=1>
+<summary>Solution</summary>
+
+Go to Smart Home > Groups and Templates in the FritzBox UI. 
+Click on "Create a template".
+
+We now need again two templates for each device / group. 
+1. coming home 
+2. leaving home
+
+The coming home template has the normal heating schedule of the device. 
+This can be archived easily by selection "Save current settings as template".
+
+The leaving home template should be ideally only consist of an eco-temperature heating schedule.
+Select create a new template and choose heating and your device. 
+Select `Select automatic settings` and `time controlled heating`. 
+This heating schedule consist by default only of eco-temperature heating. 
+The only problem is that if you apply this schedule somehow the current temperature is not changes because there are now changes in the schedule. 
+There is a work-around for this problem, by creating a tiny comfort-temperature heating zone. In the end this should look somehow like this:
+
+![fritzbox-template-coming-home.png](/assets/images/fritzbox-template-coming-home.png)
+
+The templates should automatically be synced to Home Assistant and should appear as buttons.
+Go to your automations and modify the device action to press the template button respectively.
+
+Your final automation should look somehow like this: 
+
+![hass-coming-home-automation.png](/assets/images/hass-coming-home-automation.png)
+
+</details>
+
+Now you have a working presence detection for your heating devices. 
+Maybe watch this whole system using the History tab or the Log tab in Home Assistant. 
+You can also try to trigger the automations using the states tab in the developer settings or by taking the devices of the network.
